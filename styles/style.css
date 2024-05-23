@@ -1,0 +1,343 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root{
+  --primary-color: #97D753;
+  --secondary-color: #5e9523;
+  --bg:#FFF8F0;
+  --bg2:#C2C1C6;
+  --hover:#9DD9D2;
+  --input-height: 45px;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+}
+header img {
+  border-radius: 5em;
+}
+
+footer {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-color);
+}
+
+nav{
+  background-color: var(--secondary-color);
+  width:100%;
+  height:45px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+nav a {
+  box-sizing: border-box;
+  padding: 0.5em;
+  height:100%;
+  display:flex;
+  align-items: center;
+  font-size: large;
+  text-decoration: none;
+  color: black;
+}
+
+/* > HOME */
+.bg{
+  background-image: url("../images/zion_park.jpg");
+  background-position-y: 25%;
+  min-height:300px;
+}
+#explore{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding:1em;
+}
+#explore a{
+  background-color:white;
+  padding:0.5em 2em;
+  font-size: large;
+  text-decoration: none;
+  color:black;
+  border-radius:1em;
+  margin-top:0.5em;
+  transition:transform 200ms;
+}
+#explore a:hover {
+  transform: scale(1.2);
+}
+
+#slideshows{
+  padding:1em 0;
+}
+#slideshows h3{
+  text-align: center;
+  border:none;
+  color:white;
+  background-color:#000000a2;
+  width:70%;
+  margin:auto;
+  padding:0.5em;
+  box-sizing: border-box;
+}
+.slideshow{
+  display:grid;
+  grid-template-columns: 3em 1fr 3em;
+  max-width: 70%;
+  margin:auto;
+}
+.slideshow>div{
+  display:flex;
+  flex-direction: row;
+  max-width:400px;
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+.slideshow>div>a{
+  position:relative;
+  padding:0.2em 0.5em 0;
+  box-sizing: border-box;
+  width:100%;
+  flex-shrink: 0;
+  max-height:300px;
+  scroll-snap-align: center;
+}
+.slideshow img{
+  width:100%;
+  height:auto;
+  display:block;
+  margin:auto;
+}
+.slideshow p {
+  position:absolute;
+  bottom:0.5em;
+  right:0.5em;
+  background-color:#000000a2;
+  color:white;
+  box-sizing: border-box;
+  padding:0.5em 1em;
+}
+.slideshow button{
+  display:block;
+  width:80%;
+  height: auto;
+  aspect-ratio: 1/1;
+  margin:auto;
+  border-radius: 2em;
+  border:none;
+  background-image:radial-gradient(
+    circle,
+    #000000a2 50%,
+    rgba(255, 255, 255, 0.486),
+    #00000059 100%
+  );
+  color:rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: larger;
+}
+
+/* > PARK SEARCH */
+/* #Search */
+.search{
+  display:flex;
+  flex-direction: column;
+  padding:0.25em 1.5em;
+  max-width:400px;
+  margin:auto;
+}
+.search img{
+  display: block;
+}
+.search input {
+  width:100%;
+  height:var(--input-height);
+  box-sizing: border-box;
+}
+.search select{
+  height:var(--input-height)
+}
+.search img{
+  width:var(--input-height);
+  height:var(--input-height);
+  margin:auto;
+  display:block;
+}
+
+/* #Results */
+#searchResults{
+  min-height:200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap:0.25em;
+  padding:0.25em;
+  box-sizing: border-box;
+  max-width:600px;
+  margin:auto;
+}
+img{
+  transition: filter 1s;
+}
+img.unfinished{
+  filter: blur(5px);
+}
+img {
+  filter: unset;
+}
+
+/* > DETAILS */
+#details #mainContent {
+  background-color: rgba(0, 0, 0, 0.733);
+  margin: 1.5em 0;
+  padding:0.25em 1em;
+  color:white;
+}
+#details #mainContent p{
+  padding:0.25em;
+}
+
+#details #heroContainer{
+  height:350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#details #hero {
+  width:95%;
+  margin:auto;
+  display: block;
+  height:auto;
+}
+
+#alternateViews{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding:0.25em 1em;
+  gap:0.25em;
+  box-sizing: border-box;
+}
+
+#alternateViews div{
+  width:100%;
+  height:auto;
+  aspect-ratio: 1/1;
+  overflow:hidden;
+  border:none;
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  transition:border-radius 200ms;
+}
+
+#alternateViews div:hover{
+  border-radius:1em;
+  border: 2px solid var(--secondary-color);
+}
+
+#alternateViews img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+#alternateViews img.wide{
+  width:auto;
+  height:100%;
+}
+
+#hours{
+  background-color: var(--bg2);
+  width: 100%;
+  padding:0.25em;
+  box-sizing: border-box;
+}
+#hours p.today {
+  background-color:white;
+}
+
+#activities,
+#topics{
+  margin-top:1em;
+  padding:0.25em 1em;
+}
+.blobContainer{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width:90%;
+  margin:auto'
+}
+.blob {
+  border: 2px solid var(--secondary-color);
+  border-radius: 0.5em;
+  white-space: nowrap;
+  margin:0.3em;
+  padding:0.25em;
+  box-sizing: border-box;
+  display:block;
+  transition:transform 200ms;
+}
+.blob:hover{
+  transform:scale(1.1);
+}
+.blob:hover{
+  background-color: var(--hover);
+}
+
+/* >ALL */
+main:not(main.bg) {
+  background-color: var(--bg);
+}
+.card{
+  width:100%;
+  position:relative;
+  aspect-ratio: 1/1;
+  overflow:hidden;
+  background-color: var(--bg2);
+  border-radius: 0.5em;
+}
+.card img{
+  display:block;
+  margin:auto;
+  width:auto;
+  height:100%;
+}
+.card p{
+  position:absolute;
+  bottom:0;
+  right:0;
+  background-color:var(--bg2);
+  padding:0.5em;
+  color:black;
+  width:100%;
+  text-align: right;
+  box-sizing: border-box;
+}
+h1{
+  padding:0.2em;
+  font-family: 'Red Hat Display', sans-serif;
+  font-weight:600;
+  text-align: center;
+}
+h2{
+  text-align: center;
+  padding:0.25em;
+}
+
+h3{
+  position:relative;
+  border-bottom: 2px solid black;
+  width:90%;
+  padding:0.1em;
+}
+#hours p{
+  font-size: large;
+  padding:0.25em;
+}
