@@ -14,96 +14,58 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="./styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/medium.css" />
+    <link rel="stylesheet" type="text/css" href="./styles/large.css" />
     <!-- <script src="./scripts/load-partials.js" defer></script> -->
     <script src="./scripts/details.js" type="module"></script>
   </head>
   <body>
     <main>
-      <main>
-        <div id="alerts">Alerts here</div>
-        <div id="details">
-          <div id="mainContent">
-            <h2>Park Name</h2>
-            <p>Park Description</p>
-            <div id="heroContainer">
-              <img
-                src="https://www.nps.gov/common/uploads/structured_data/3C7B45AE-1DD8-B71B-0B7EE131C7DFC2F5.jpg"
-                alt="park image"
-                width="100"
-                height="100"
-                id="hero"
-              />
-            </div>
+      <div id="alerts">Loading Alerts...</div>
+      <div id="weather">
+        <div id="current">
+          <h3>Current</h3>
+          <div id="currentWeather">Loading Current Weather...</div>
+        </div>
+        <div id="forecast">
+          <h3>Forecast</h3>
+          <div id="forecastContainer">Loading Forecast...</div>
+        </div>
+      </div>
+      <div id="details">
+        <div id="mainContent">
+          <div>
+            <h2 id="parkName">Loading Park Name...</h2>
+            <p id="parkDescription">Loading Park Description...</p>
+            <div id="heroContainer">Loading Hero Image...</div>
             <div id="alternateViews">
-              <div>
-                <img
-                  src="https://www.nps.gov/common/uploads/structured_data/3C7B45AE-1DD8-B71B-0B7EE131C7DFC2F5.jpg"
-                  alt="alt text"
-                  width="100"
-                  height="100"
-                  class="altImage"
-                />
-              </div>
-              <div>
-                <img
-                  src="https://www.nps.gov/common/uploads/structured_data/3C7B45AE-1DD8-B71B-0B7EE131C7DFC2F5.jpg"
-                  alt="alt text"
-                  width="100"
-                  height="100"
-                  class="altImage"
-                />
-              </div>
-              <div>
-                <img
-                  src="https://www.nps.gov/common/uploads/structured_data/3C7B45AE-1DD8-B71B-0B7EE131C7DFC2F5.jpg"
-                  alt="alt text"
-                  width="100"
-                  height="100"
-                  class="altImage"
-                />
-              </div>
-
+              <div id="alternateViewsContainer">Loading Alternate Views...</div>
             </div>
           </div>
-          <div id="hours">
-            <h3>Park Hours</h3>
-            <p>Wednesday: All Day</p>
-            <p>Monday: All Day</p>
-            <p>Thursday: All Day</p>
-            <p>Sunday: All Day</p>
-            <p>Tuesday: All Day</p>
-            <p class="today">Friday: All Day</p>
-
-            <p>Saturday: All Day</p>
-          </div>
-
-          <div id="activities">
-            <h3>Activities</h3>
-            <div class="blobContainer">
-              <a class="blob">Activity Name</a>
-              <a class="blob">Activity Name</a>
-              <a class="blob">Activity Name</a>
-              <a class="blob">Activity Name</a>
-              <a class="blob">Activity Name</a>
-              <a class="blob">Activity Name</a>
-              <a class="blob">Activity Name</a>
-            </div>
-          </div>
-          <div id="topics">
-            <h3>Topics</h3>
-            <div class="blobContainer">
-              <a class="blob">Topic Name</a>
-              <a class="blob">Topic Name</a>
-              <a class="blob">Topic Name</a>
-              <a class="blob">Topic Name</a>
-              <a class="blob">Topic Name</a>
-              <a class="blob">Topic Name</a>
-              <a class="blob">Topic Name</a>
-            </div>
+          <div>
+            <h3>Location</h3>
+            <div id="locationContainer">Loading location...</div>
           </div>
         </div>
-        <div id="weather">Some API weather data here</div>
-      </main>
+        <div id="hours">
+          <h3>Park Hours</h3>
+          <div id="hoursContainer">Loading Park Hours...</div>
+        </div>
+
+        <div id="activities">
+          <h3>Activities</h3>
+          <div class="blobContainer" id="relatedActivities">
+            Loading Related Activities...
+          </div>
+        </div>
+        <div id="topics">
+          <h3>Topics</h3>
+          <div class="blobContainer" id="relatedTopics">
+            Loading Related Topics...
+          </div>
+        </div>
+      </div>
     </main>
   </body>
 </html>
+

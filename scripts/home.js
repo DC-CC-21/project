@@ -1,14 +1,15 @@
 import { fetchParks, elById } from "./utils.js";
 
 function slideshowTemplate(data, title) {
+
   return `
-        <h3>${title}</h3>
-        <div class="slideshow">
-            <button class="slideshowBtn prev"><</button>
-            <div>
-            ${data
-              .map((park) => {
-                return `
+  <h3>${title}</h3>
+  <div class="slideshow">
+  <button class="slideshowBtn prev"><</button>
+  <div>
+    ${data
+      .map((park) => {
+        return `
                 <a href="details.html?parkCode=${park.parkCode}">
                   <img
                     src="${park.images[0].url}"
@@ -17,14 +18,19 @@ function slideshowTemplate(data, title) {
                     height="100"
                     loading="lazy"
                     class="unfinished"
-                    onload="(()=> {this.classList.remove('unfinished')})()"
+                    onload="(()=> {
+                      this.classList.remove('unfinished')
+                      if(this.width > this.height){
+                        this.classList.add('wide')
+                      }
+                    })()"
                     onerror="(()=> {this.classList.remove('unfinished')})()"
                   >
                     <p>${park.fullName}</p>
                   </a href="details.html?id=${park.id}">
-                    `;
-              })
-              .join("")}
+                `;
+    })
+    .join("")}
             </div>
             <button class="slideshowBtn next">></button>
         </div>
@@ -34,7 +40,7 @@ function slideshowTemplate(data, title) {
 let currentChild = 0;
 
 (async () => {
-  let data = await fetchParks("parks")
+  let data = await fetchParks("parks");
   let slideshowParks = [];
   for (let i = 0; i < 10; i++) {
     let idx = Math.floor(Math.random() * data.data.length);
@@ -53,14 +59,14 @@ document.addEventListener("click", (e) => {
   if (targetClass.includes("slideshowBtn")) {
     let slideshowChildren;
     if (targetClass.includes("next")) {
-      slideshowChildren = e.target.previousElementSibling.children
-      if(++currentChild >= slideshowChildren.length){
-        currentChild = 0
+      slideshowChildren = e.target.previousElementSibling.children;
+      if (++currentChild >= slideshowChildren.length) {
+        currentChild = slideshowChildren.length - 1
       }
     } else if (targetClass.includes("prev")) {
-      slideshowChildren = e.target.nextElementSibling.children
-      if(--currentChild < 0){
-        currentChild = slideshowChildren.length-1
+      slideshowChildren = e.target.nextElementSibling.children;
+      if (--currentChild < 0) {
+        currentChild = 0
       }
     }
     slideshowChildren[currentChild].scrollIntoView();

@@ -1,0 +1,20 @@
+@media screen and (min-width: 500px) {
+    #weather{
+        display:grid;
+        grid-template-columns: 60% 40%;
+    }
+}
+@media screen and (min-width: 800px) {
+    #details #mainContent>div {
+        max-width:1000px;
+        margin:auto;
+        display:grid;
+        grid-template-columns: 60% 40%;
+        grid-gap: 1em;
+    }
+    #mainContent h2, 
+    #mainContent #parkDescription {
+        grid-column: 1/3;
+    }
+
+}

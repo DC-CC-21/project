@@ -77,6 +77,7 @@ nav a {
 
 #slideshows{
   padding:1em 0;
+  min-height:300px;
 }
 #slideshows h3{
   text-align: center;
@@ -91,31 +92,40 @@ nav a {
 .slideshow{
   display:grid;
   grid-template-columns: 3em 1fr 3em;
-  max-width: 70%;
+  max-width: 90%;
   margin:auto;
 }
 .slideshow>div{
   display:flex;
   flex-direction: row;
-  max-width:400px;
+  max-width:600px;
   overflow: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  margin:auto;
+  width:100%;
 }
 .slideshow>div>a{
   position:relative;
   padding:0.2em 0.5em 0;
   box-sizing: border-box;
-  width:100%;
+  width:90%;
   flex-shrink: 0;
   max-height:300px;
   scroll-snap-align: center;
+  overflow:hidden;
 }
 .slideshow img{
   width:100%;
   height:auto;
   display:block;
   margin:auto;
+}
+img.wide {
+  width:auto;
+  height:100%;
+  margin:auto;
+  display:block;
 }
 .slideshow p {
   position:absolute;
@@ -180,7 +190,7 @@ nav a {
   gap:0.25em;
   padding:0.25em;
   box-sizing: border-box;
-  max-width:600px;
+  max-width:1000px;
   margin:auto;
 }
 img{
@@ -205,7 +215,12 @@ img {
 }
 
 #details #heroContainer{
-  height:350px;
+  /* height:350px; */
+  width:100%;
+  max-width:500px;
+  margin:auto;
+  height:auto;
+  aspect-ratio: 3/2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -219,15 +234,36 @@ img {
   height:auto;
 }
 
-#alternateViews{
+#alternateViews {
+  max-height:350px;
+  overflow-y:auto;
+  margin:0.2em;
+}
+
+#alternateViews::-webkit-scrollbar{
+  appearance:none;
+}
+
+#alternateViews::-webkit-scrollbar-thumb{
+  background-color:var(--secondary-color);
+  border-radius: 1em;
+}
+
+#alternateViews::-webkit-scrollbar-track{
+  background-color:var(--bg2);
+  border-radius: 1em;
+}
+
+
+#alternateViews>div{
   display:grid;
   grid-template-columns: 1fr 1fr 1fr;
-  padding:0.25em 1em;
+  padding:0.25em;
   gap:0.25em;
   box-sizing: border-box;
 }
 
-#alternateViews div{
+#alternateViews>div div{
   width:100%;
   height:auto;
   aspect-ratio: 1/1;
@@ -238,7 +274,7 @@ img {
   transition:border-radius 200ms;
 }
 
-#alternateViews div:hover{
+#alternateViews>div div:hover{
   border-radius:1em;
   border: 2px solid var(--secondary-color);
 }
@@ -284,6 +320,8 @@ img {
   box-sizing: border-box;
   display:block;
   transition:transform 200ms;
+  text-decoration: none;
+  color:black;
 }
 .blob:hover{
   transform:scale(1.1);
@@ -304,7 +342,7 @@ main:not(main.bg) {
   background-color: var(--bg2);
   border-radius: 0.5em;
 }
-.card img{
+.card img:not(.wide){
   display:block;
   margin:auto;
   width:auto;
@@ -320,7 +358,20 @@ main:not(main.bg) {
   width:100%;
   text-align: right;
   box-sizing: border-box;
+  z-index:1;
 }
+.card p::before{
+  content:"";
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background-color: var(--bg2);
+  opacity:0.5;
+  z-index:-1;
+}
+
+
 h1{
   padding:0.2em;
   font-family: 'Red Hat Display', sans-serif;
@@ -369,5 +420,44 @@ h3{
 }
 .hours {
   text-align: left;
+  padding:0.25em;
+}
+#alerts div {
+  margin: 0.25em;
+  background-color: #ffa9a9;
+  padding: 0.25em;
+  border: 3px solid red;
+  border-radius: 0.25em;
+}
+
+#weather{
+  background-image:linear-gradient(white, #00aaff);
+  padding:0.25em;
+}
+#current,
+#forecast{
+
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#forecastContainer{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#current p{
+  font-size:larger;
+}
+.weatherTile {
+  background-color: #29308259;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.25em;
+  margin:0.35em;
   padding:0.25em;
 }

@@ -3,24 +3,30 @@
     padding: 0.25em 1em;
   }
 
-  .search{
-    display:grid;
+  .search {
+    display: grid;
     grid-template-columns: 1fr 20% 60% 45px 1fr;
   }
   .search label {
     grid-column: 3/4;
   }
-  .search select{
+  .search select {
     grid-column: 2/3;
-    height:100%;
+    height: 100%;
   }
   .search input {
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
   }
   .search button {
     grid-column: 4/5;
-    height:100%;
+    height: 100%;
     width: 100%;
+  }
+  .slideshow>div>a {
+    width: 70%;
+  }
+  .slideshow {
+    max-width:70%;
   }
 }
