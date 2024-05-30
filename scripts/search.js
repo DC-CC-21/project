@@ -2,7 +2,7 @@ import { fetchParks, elById } from "./utils.js"
 
 let searchOptions = {
   states: [], // .addresses.stateCode
-  postalCode: [], // .addresses.postalCode
+  // postalCode: [], // .addresses.postalCode
   activities: [], // .activities.name
   name: [], // .name
 };
@@ -16,10 +16,9 @@ const select = elById("filter");
 
 function getSearchOptions(data) {
   data.forEach((value) => {
-    value.addresses.forEach((x) => {
-      // searchOptions["stateCode"].push(x.stateCode);
-      searchOptions["postalCode"].push(x.postalCode);
-    });
+    // value.addresses.forEach((x) => {
+    //   searchOptions["postalCode"].push(x.postalCode);
+    // });
     value.activities.forEach((x) => searchOptions["activities"].push(x.name));
     searchOptions["states"].push(...value.states.split(","))
     searchOptions["name"].push(value.name);

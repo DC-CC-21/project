@@ -204,6 +204,9 @@ img {
 }
 
 /* > DETAILS */
+#mainContent {
+  position:relative;
+}
 #details #mainContent {
   background-color: rgba(0, 0, 0, 0.733);
   margin: 1.5em 0;
@@ -460,4 +463,52 @@ h3{
   border-radius: 0.25em;
   margin:0.35em;
   padding:0.25em;
+}
+
+#weather>div{
+  max-width:600px;
+  margin:auto;
+}
+
+
+#like{
+  position:absolute;
+  right:0.75em;
+  top:0.5em;
+  background-color: white;
+  border:1px solid red;
+  border-radius: 2em;
+  padding:0.2em;
+  overflow:hidden;
+
+  transition:all 250ms;
+}
+#like img{
+  display: block;
+  margin:auto;
+  padding:0;
+}
+
+@keyframes rotate {
+  0% {
+    transform:rotateZ(45deg);
+  }
+  50% {
+    transform:rotateZ(-45deg);
+  }
+  100% {
+    transform:rotateZ(45deg);
+  }
+}
+
+#like:not(.liked):hover{
+  animation: rotate 700ms infinite ease-in-out;
+}
+#like.liked {
+  background-color:yellow;
+}
+
+
+h2#parkName{
+  margin-top:2em;
 }

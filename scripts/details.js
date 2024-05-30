@@ -6,8 +6,13 @@ String.prototype.capitalize = function () {
 
 const searchParams = new URLSearchParams(window.location.search);
 const alertsEl = elById("alerts");
-const weatherEl = elById("weather");
+let likedParks = JSON.parse(localStorage.getItem("likedParks")) || []
 
+if(likedParks.includes(searchParams.get("parkCode"))){
+  elById("like").classList.add("liked")
+}
+
+// > Main content
 function updateMainContent(parkData){
   // # Park Name
   elById("parkName").innerHTML = parkData.fullName;
@@ -71,6 +76,7 @@ function updateBlobs(parent, data, type){
   showLoadedContent(parent, blobs)
 }
 
+// > Alerts
 function showAlerts(alerts) {
   alertsEl.innerHTML = "";
   alerts.data.forEach((alert) => {
@@ -93,7 +99,7 @@ function showAlerts(alerts) {
   });
 }
 
-
+// > Weather
 function currentWeather(weather){
   let img = document.createElement("img")
   img.src = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`
@@ -125,7 +131,6 @@ function forecastWeather(weather){
   })
   showLoadedContent(elById("forecastContainer"), weatherData)
 }
-
 async function displayWeather(parkData){
   let lat = parkData.latitude;
   let lon = parkData.longitude;
@@ -152,8 +157,22 @@ async function displayWeather(parkData){
   showAlerts(alerts);
 })();
 
+
 document.addEventListener("click", (e) => {
   if (e.target.classList.value.includes("altImage")) {
     elById("hero").src = e.target.src;
   }
 });
+
+
+document.getElementById("like").onclick = function(){
+  this.classList.toggle("liked")
+
+  if(this.classList.value.includes("liked")){
+    likedParks.push(searchParams.get("parkCode"))
+    localStorage.setItem("likedParks", JSON.stringify(likedParks))
+  } else {
+    likedParks = likedParks.filter(park => park !== searchParams.get("parkCode"))
+    localStorage.setItem("likedParks", JSON.stringify(likedParks))
+  }
+}
