@@ -30,12 +30,14 @@ function getSearchOptions(data) {
 }
 
 function updateSelectMenu() {
-  Object.keys(searchOptions).forEach((option) => {
-    let optionElement = document.createElement("option");
-    optionElement.innerHTML = option;
-    optionElement.value = option;
-    select.append(optionElement);
-  });
+  if (select.children.length <= 1) {
+    Object.keys(searchOptions).forEach((option) => {
+      let optionElement = document.createElement("option");
+      optionElement.innerHTML = option;
+      optionElement.value = option;
+      select.append(optionElement);
+    });
+  }
 }
 
 function fillDatalist(key) {
@@ -57,15 +59,27 @@ async function parkSearch() {
 
 function filterParkData(filter, searchString) {
   return parkData.data.filter((x) => {
-    let dataValue = x[filter];
-    if (typeof dataValue === "string") {
-      return dataValue.toLowerCase().includes(searchString.toLowerCase());
-    } else if (Array.isArray(dataValue)) {
-      return dataValue.filter((y) =>
-        y.name.toLowerCase().includes(searchString.toLowerCase())
-      ).length;
+    if (filter.toLowerCase() === "all") {
+      let name = filterBy(x, "name", searchString);
+      let description = filterBy(x, "description", searchString);
+      let activities = filterBy(x, "activities", searchString);
+      let topics = filterBy(x, "topics", searchString);
+      return name || description || activities || topics;
+    } else {
+      return filterBy(x, filter, searchString);
     }
   });
+}
+
+function filterBy(x, key, searchString) {
+  let dataValue = x[key];
+  if (typeof dataValue === "string") {
+    return dataValue.toLowerCase().includes(searchString.toLowerCase());
+  } else if (Array.isArray(dataValue)) {
+    return dataValue.filter((y) =>
+      y.name.toLowerCase().includes(searchString.toLowerCase())
+    ).length;
+  }
 }
 
 function createCard(park) {
