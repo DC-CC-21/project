@@ -16,5 +16,9 @@
     #mainContent #parkDescription {
         grid-column: 1/3;
     }
-
+    #details div#location{
+        display:flex;
+        flex-direction: column;
+        margin-top:0.5em;
+    }
 }

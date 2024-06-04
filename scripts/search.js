@@ -1,4 +1,4 @@
-import { fetchParks, elById } from "./utils.js"
+import { fetchParks, elById } from "./utils.js";
 
 let searchOptions = {
   states: [], // .addresses.stateCode
@@ -12,7 +12,7 @@ let parkData;
 const results = elById("searchResults");
 const searchString = elById("searchString");
 const select = elById("filter");
-
+let params = new URLSearchParams(window.location.search);
 
 function getSearchOptions(data) {
   data.forEach((value) => {
@@ -20,7 +20,7 @@ function getSearchOptions(data) {
     //   searchOptions["postalCode"].push(x.postalCode);
     // });
     value.activities.forEach((x) => searchOptions["activities"].push(x.name));
-    searchOptions["states"].push(...value.states.split(","))
+    searchOptions["states"].push(...value.states.split(","));
     searchOptions["name"].push(value.name);
   });
   Object.keys(searchOptions).forEach((option) => {
@@ -51,69 +51,79 @@ function fillDatalist(key) {
 
 async function parkSearch() {
   results.innerHTML = "";
-  let searchResults = filterParkData(filter, searchString.value)
+  let searchResults = filterParkData(filter, searchString.value);
   searchResults.forEach(createCard);
 }
 
-function filterParkData(filter, searchString){
-  return parkData.data.filter(x => {
+function filterParkData(filter, searchString) {
+  return parkData.data.filter((x) => {
     let dataValue = x[filter];
-    if(typeof dataValue === 'string'){
+    if (typeof dataValue === "string") {
       return dataValue.toLowerCase().includes(searchString.toLowerCase());
-    } else if(Array.isArray(dataValue)){
-      return dataValue.filter(y => y.name.toLowerCase().includes(searchString.toLowerCase())).length
+    } else if (Array.isArray(dataValue)) {
+      return dataValue.filter((y) =>
+        y.name.toLowerCase().includes(searchString.toLowerCase())
+      ).length;
     }
-  })
+  });
 }
 
 function createCard(park) {
   fetch(park.images[0].url)
-  .then(res => res.blob())
-  .then(blob => {
-    let a = document.createElement("a");
-    a.classList.add("card");
-    a.href = `details.html?parkCode=${park.parkCode}`;
-    
-    let p = document.createElement("p");
-    p.innerHTML = park.fullName;
-    
-    
-    let img = document.createElement("img");
-    // img.src = park.images[0].url;
-    img.src = URL.createObjectURL(blob)
-    img.loading = "lazy";
-    img.classList.add("unfinished")
-    img.onload = function() {
-      this.classList.remove("unfinished");
-      console.log(this.width, this.height)
-      if(this.width > this.height){
-        console.log("wide", this)
-        this.classList.add("wide")
-      }
-    }
-    
-    img.setAttribute("width", "100");
-    img.setAttribute("height", "100");
-    
-    a.append(p, img);
-    
-    results.append(a);
-  })
-}
+    .then((res) => res.blob())
+    .then((blob) => {
+      let a = document.createElement("a");
+      a.classList.add("card");
+      a.href = `details.html?parkCode=${park.parkCode}`;
 
+      let p = document.createElement("p");
+      p.innerHTML = park.fullName;
+
+      let img = document.createElement("img");
+      // img.src = park.images[0].url;
+      img.src = URL.createObjectURL(blob);
+      img.loading = "lazy";
+      img.classList.add("unfinished");
+      img.onload = function () {
+        this.classList.remove("unfinished");
+        if (this.width > this.height) {
+          this.classList.add("wide");
+        }
+      };
+
+      img.setAttribute("width", "100");
+      img.setAttribute("height", "100");
+
+      a.append(p, img);
+
+      results.append(a);
+    });
+}
 
 (async () => {
   parkData = await fetchParks("parks");
   getSearchOptions(parkData.data);
-})();
 
+  if (searchString.value !== "") {
+    filter = select.value;
+    getSearchOptions(parkData.data);
+
+    parkSearch();
+  } else if (params.get("filter")) {
+    select.value = params.get("filter");
+    filter = select.value;
+    searchString.value = params.get("search");
+    fillDatalist(filter);
+    parkSearch();
+  }
+})();
 
 // # Event Listeners
 select.addEventListener("change", (event) => {
   // Listen for changes to the select element
   filter = event.target.value;
-  searchString.value = ""
-  searchString.focus()
+  searchString.value = "";
+  searchString.focus();
   fillDatalist(filter);
 });
 
@@ -122,7 +132,7 @@ elById("search").addEventListener("click", (e) => {
 });
 
 searchString.addEventListener("keyup", (e) => {
-  if(e.code === "Enter" || e.code === "NumpadEnter"){
+  if (e.code === "Enter" || e.code === "NumpadEnter") {
     parkSearch();
   }
-})
+});

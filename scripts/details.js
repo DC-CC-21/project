@@ -1,4 +1,10 @@
-import { fetchParks, elById, lazyImage, showLoadedContent, fetchWeather } from "./utils.js";
+import {
+  fetchParks,
+  elById,
+  lazyImage,
+  showLoadedContent,
+  fetchWeather,
+} from "./utils.js";
 
 String.prototype.capitalize = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -6,14 +12,14 @@ String.prototype.capitalize = function () {
 
 const searchParams = new URLSearchParams(window.location.search);
 const alertsEl = elById("alerts");
-let likedParks = JSON.parse(localStorage.getItem("likedParks")) || []
+let likedParks = JSON.parse(localStorage.getItem("likedParks")) || [];
 
-if(likedParks.includes(searchParams.get("parkCode"))){
-  elById("like").classList.add("liked")
+if (likedParks.includes(searchParams.get("parkCode"))) {
+  elById("like").classList.add("liked");
 }
 
 // > Main content
-function updateMainContent(parkData){
+function updateMainContent(parkData) {
   // # Park Name
   elById("parkName").innerHTML = parkData.fullName;
 
@@ -26,54 +32,59 @@ function updateMainContent(parkData){
   showLoadedContent(elById("heroContainer"), heroImg);
 
   // # Alternate Views
-  let alternateImages = parkData.images.map(image => {
+  let alternateImages = parkData.images.map((image) => {
     let div = document.createElement("div");
     let img = lazyImage(image.url, image.altText);
     img.classList.add("altImage");
 
     div.append(img);
-    return div
-  })
+    return div;
+  });
   showLoadedContent(elById("alternateViewsContainer"), alternateImages);
 
   // # Location
   let location = document.createElement("p");
   location.innerHTML = `${parkData.addresses[0].city}, ${parkData.addresses[0].stateCode} ${parkData.addresses[0].postalCode}`;
 
-  let line = document.createElement("p")
-  line.innerHTML = `${parkData.addresses[0].line1}`
+  let line = document.createElement("p");
+  line.innerHTML = `${parkData.addresses[0].line1}`;
 
-  let latlon = document.createElement("p")
+  let latlon = document.createElement("p");
   latlon.innerHTML = parkData.latLong;
   showLoadedContent(elById("locationContainer"), [location, line, latlon]);
-
 }
-function updateHours(parkData){
+function updateHours(parkData) {
   // # Park Hours
-  let hours = parkData.operatingHours[0].standardHours;
-  let day = new Date().toLocaleString("en-US", { weekday: "long" });
-  
-  let hoursElements = Object.keys(hours).map((key) => {
-    let parkDay = key.capitalize();
+  let hours = parkData.operatingHours[0]?.standardHours;
+  if (hours) {
+    let day = new Date().toLocaleString("en-US", { weekday: "long" });
+
+    let hoursElements = Object.keys(hours).map((key) => {
+      let parkDay = key.capitalize();
+      let p = document.createElement("p");
+      p.innerHTML = `${parkDay}: ${hours[key]}`;
+      if (day === parkDay) {
+        p.classList.add("today");
+      }
+      return p;
+    });
+    showLoadedContent(elById("hoursContainer"), hoursElements);
+  } else {
     let p = document.createElement("p");
-    p.innerHTML = `${parkDay}: ${hours[key]}`;
-    if(day === parkDay){
-      p.classList.add("today")
-    }
-    return p
-  })
-  showLoadedContent(elById("hoursContainer"), hoursElements)
+    p.innerHTML = "No hours available";
+    showLoadedContent(elById("hoursContainer"), p);
+  }
 }
-function updateBlobs(parent, data, type){
+function updateBlobs(parent, data, type) {
   // # Related Activities & Topics
   let blobs = data.map((item) => {
     let a = document.createElement("a");
     a.classList.add("blob");
-    a.href=`search.html?filter=${type}&search=${item.name}`;
+    a.href = `search.html?filter=${type}&search=${item.name}`;
     a.innerHTML = item.name;
-    return a
-  })
-  showLoadedContent(parent, blobs)
+    return a;
+  });
+  showLoadedContent(parent, blobs);
 }
 
 // > Alerts
@@ -100,53 +111,57 @@ function showAlerts(alerts) {
 }
 
 // > Weather
-function currentWeather(weather){
-  let img = document.createElement("img")
-  img.src = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`
-  
-  let p = document.createElement("p")
-  p.innerHTML = `${weather.weather[0].description.capitalize()} ${weather.main.temp.toFixed(0)}°F`
-  showLoadedContent(elById("currentWeather"), [img, p])
-}
-function forecastWeather(weather){
-  console.log(weather)
-  let weatherData = []
-  for(let i = 0; i < weather.list.length; i += 8){
-    let value = weather.list[i]
-    weatherData.push(value)
-  }
-  weatherData = weatherData.slice(0, 4).map(value => {
-    let div = document.createElement("div")
-    div.classList.add("weatherTile")
+function currentWeather(weather) {
+  let img = document.createElement("img");
+  img.src = `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`;
 
-    let h4 = document.createElement("h4")
-    h4.innerHTML = new Date(value.dt_txt).toLocaleDateString("en-US", { weekday: "long" })
-    
-    let img = document.createElement("img")
-    img.src = `https://openweathermap.org/img/wn/${value.weather[0].icon}.png`
-    let p = document.createElement("p")
-    p.innerHTML = `${value.weather[0].description.capitalize()} ${value.main.temp.toFixed(0)}°F`
-    div.append(h4, img, p)
-    return div
-  })
-  showLoadedContent(elById("forecastContainer"), weatherData)
+  let p = document.createElement("p");
+  p.innerHTML = `${weather.weather[0].description.capitalize()} ${weather.main.temp.toFixed(
+    0
+  )}°F`;
+  showLoadedContent(elById("currentWeather"), [img, p]);
 }
-async function displayWeather(parkData){
+function forecastWeather(weather) {
+  let weatherData = [];
+  for (let i = 0; i < weather.list.length; i += 8) {
+    let value = weather.list[i];
+    weatherData.push(value);
+  }
+  weatherData = weatherData.slice(0, 4).map((value) => {
+    let div = document.createElement("div");
+    div.classList.add("weatherTile");
+
+    let h4 = document.createElement("h4");
+    h4.innerHTML = new Date(value.dt_txt).toLocaleDateString("en-US", {
+      weekday: "long",
+    });
+
+    let img = document.createElement("img");
+    img.src = `https://openweathermap.org/img/wn/${value.weather[0].icon}.png`;
+    let p = document.createElement("p");
+    p.innerHTML = `${value.weather[0].description.capitalize()} ${value.main.temp.toFixed(
+      0
+    )}°F`;
+    div.append(h4, img, p);
+    return div;
+  });
+  showLoadedContent(elById("forecastContainer"), weatherData);
+}
+async function displayWeather(parkData) {
   let lat = parkData.latitude;
   let lon = parkData.longitude;
-  currentWeather(await fetchWeather("weather", lat, lon))
-  forecastWeather(await fetchWeather("forecast", lat, lon))
+  currentWeather(await fetchWeather("weather", lat, lon));
+  forecastWeather(await fetchWeather("forecast", lat, lon));
 }
 
 (async () => {
-  let parkData = (await fetchParks(
-    "parks",
-    `&parkCode=${searchParams.get("parkCode")}`
-  )).data[0];
+  let parkData = (
+    await fetchParks("parks", `&parkCode=${searchParams.get("parkCode")}`)
+  ).data[0];
 
-  displayWeather(parkData)
-  updateMainContent(parkData)
-  updateHours(parkData)
+  displayWeather(parkData);
+  updateMainContent(parkData);
+  updateHours(parkData);
   updateBlobs(elById("relatedActivities"), parkData.activities, "activities");
   updateBlobs(elById("relatedTopics"), parkData.topics, "topics");
 
@@ -157,22 +172,22 @@ async function displayWeather(parkData){
   showAlerts(alerts);
 })();
 
-
 document.addEventListener("click", (e) => {
   if (e.target.classList.value.includes("altImage")) {
     elById("hero").src = e.target.src;
   }
 });
 
+document.getElementById("like").onclick = function () {
+  this.classList.toggle("liked");
 
-document.getElementById("like").onclick = function(){
-  this.classList.toggle("liked")
-
-  if(this.classList.value.includes("liked")){
-    likedParks.push(searchParams.get("parkCode"))
-    localStorage.setItem("likedParks", JSON.stringify(likedParks))
+  if (this.classList.value.includes("liked")) {
+    likedParks.push(searchParams.get("parkCode"));
+    localStorage.setItem("likedParks", JSON.stringify(likedParks));
   } else {
-    likedParks = likedParks.filter(park => park !== searchParams.get("parkCode"))
-    localStorage.setItem("likedParks", JSON.stringify(likedParks))
+    likedParks = likedParks.filter(
+      (park) => park !== searchParams.get("parkCode")
+    );
+    localStorage.setItem("likedParks", JSON.stringify(likedParks));
   }
-}
+};

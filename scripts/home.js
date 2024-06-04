@@ -47,7 +47,6 @@ let currentChild = 0;
     slideshowParks.push(data.data[idx]);
     data.data.splice(idx, 1);
   }
-  console.log(slideshowParks);
   elById("slideshows").innerHTML = slideshowTemplate(
     slideshowParks,
     "Featured Parks"
